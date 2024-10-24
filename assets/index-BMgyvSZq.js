@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{C as e,F as t,D as r}from"./index-Bcg_DdzI.js";const s={};function a(n,_){return e(),t("div",null," HOPE IS FICKLE ")}const m=o(s,[["render",a]]),i={__name:"index",setup(n){return(_,p)=>{const c=m;return e(),r(c)}}};export{i as default};
