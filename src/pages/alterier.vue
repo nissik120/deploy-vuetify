@@ -1,5 +1,5 @@
 <template>
-  <MainPageView />
+    <AlterierPageView />
 </template>
 
 <script setup>

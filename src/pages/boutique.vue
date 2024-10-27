@@ -1,5 +1,5 @@
 <template>
-  <MainPageView />
+    <BoutiquePageView />
 </template>
 
 <script setup>

@@ -46,6 +46,7 @@ export default defineConfig({
       vueTemplate: true,
     }),
   ],
+  base: "/deploy-vuetify/",
   define: { 'process.env': {} },
   resolve: {
     alias: {

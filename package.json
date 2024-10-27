@@ -1,7 +1,10 @@
 {
   "name": "deploy-vuetify",
   "version": "0.0.0",
+  "homepage": "https://nissik120.github.io/deploy-vuetify/",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -24,6 +27,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.4.0",
     "eslint-plugin-vue": "^9.27.0",
+    "gh-pages": "^6.2.0",
     "pinia": "^2.1.7",
     "sass": "1.77.6",
     "unplugin-auto-import": "^0.17.6",

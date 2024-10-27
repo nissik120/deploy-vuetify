@@ -1,5 +1,5 @@
 <template>
-  <MainPageView />
+    <AboutUsPageView />
 </template>
 
 <script setup>
