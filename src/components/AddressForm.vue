@@ -4,7 +4,7 @@
         <h2 class="ml-2 pa-2">Unser Laden</h2>
 
         <v-row>
-            <v-col cols="6">
+            <v-col cols="12" sm="6">
 
                 <h3 class="pa-2 ml-2">Addresse und Arbeitzeit</h3>
 
@@ -27,23 +27,23 @@
                 </div>
 
             </v-col>
-            <v-form>
+            <v-form cols="12" sm="6">
                 <v-container>
                     <h3 class="py-2">Kontakt Uns</h3>
                     <v-row>
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="6">
                             <v-text-field label="First name" hide-details required></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="6">
                             <v-text-field label="Last name" hide-details required></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="4">
+                        <v-col cols="12">
                             <v-text-field label="E-mail" hide-details required></v-text-field>
                         </v-col>
 
-                        <v-col>
+                        <v-col cols="12">
                             <v-btn class="mt-2" type="submit" block>Senden</v-btn>
                         </v-col>
 

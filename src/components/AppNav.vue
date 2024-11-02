@@ -2,17 +2,22 @@
     <v-container app class="ma-auto">
         <v-toolbar prominent class="bg-transparent">
 
-            <v-img v-if="theme.global.current.value.dark" src="../assets/logo-bw.png" alt="Brand Logo" max-width="150"
-                class="mr-4"></v-img>
-            <v-img v-else src="../assets/logo.png" alt="Brand Logo" max-width="150" class="mr-4"></v-img>
-
+            <LogoImage />
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
                     <v-icon left dark>{{ item.icon }}</v-icon>
                     {{ item.title }}
                 </v-btn>
+                <AuthModalView />
             </v-toolbar-items>
+            <span>
+                <v-btn class="text-none" stacked :to="cartMenuItem.path">
+                    <v-badge color="error" content="2">
+                        <v-icon>mdi-cart</v-icon>
+                    </v-badge>
+                </v-btn>
+            </span>
             <span>
                 <v-switch @update:model-value="toggleTheme" :false-icon="'mdi-weather-sunny'"
                     :true-icon="'mdi-weather-night'" hide-details inset></v-switch>
@@ -23,13 +28,18 @@
         </v-toolbar>
 
         <v-navigation-drawer v-model="sidebar" temporary>
-            <v-list-item :title="appTitle" :subtitle="appSubTitle"></v-list-item>
+            <LogoImage />
             <v-divider></v-divider>
             <v-list-item v-for="item in menuItems" link :title="item.title" :to="item.path"></v-list-item>
-
-
-
+            <v-divider></v-divider>
+            <AuthModalView />
         </v-navigation-drawer>
+
+        <v-dialog>
+
+        </v-dialog>
+
+
     </v-container>
 </template>
 
@@ -39,6 +49,8 @@ import { useTheme } from 'vuetify'
 const theme = useTheme()
 const appTitle = ref("E'S Fashion")
 const appSubTitle = ref('Mode & Anderungen')
+
+
 const sidebar = ref(false)
 const menuItems = ref([
     { title: 'Home', path: '/' },
@@ -47,11 +59,12 @@ const menuItems = ref([
     { title: 'Über Uns', path: '/about-us' },
 ])
 
-const getLogoName = computed(() => {
-    return theme.global.current.value.dark ? 'logo-bw' : 'logo'
+const cartMenuItem = ref({
+    title: 'Cart', path: '/shopping-cart'
 })
 
 function toggleTheme() {
     theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
+
 </script>

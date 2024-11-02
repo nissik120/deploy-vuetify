@@ -59,19 +59,7 @@
                 </v-row>
                 <v-row>
                     <v-col v-for="item in itemList">
-                        <v-card color="surface-variant" min-width="240" max-width="340">
-                            <v-img height="200px" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                                cover></v-img>
-                            <v-card-title>
-                                {{ item.name }}
-                            </v-card-title>
-                            <v-card-subtitle>
-                                €{{ item.price }}
-                            </v-card-subtitle>
-                            <v-card-actions>
-                                <v-btn text="Add To Cart"></v-btn>
-                            </v-card-actions>
-                        </v-card>
+                        <ProductItemCard :productItem="item" />
                     </v-col>
                 </v-row>
                 <v-row>
