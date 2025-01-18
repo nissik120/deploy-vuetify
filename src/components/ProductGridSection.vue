@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-img height="200px" :src="`https://picsum.photos/id/78/1200/1800`" cover></v-img>
+        <v-img src="../assets/boutique-banner-b.png" height="100" cover></v-img>
     </div>
 
     <v-layout>
@@ -79,10 +79,20 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, toRaw, reactive, computed } from 'vue';
+import { productStore } from '@/stores/productstore';
+import { auth, db } from "@/firebase/init"
+import { query, doc, where, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, getDocs, collection } from "firebase/firestore"
+import { cartStore } from '@/stores/cartstore';
+
+const productData = ref([]);
 const sidebarFilter = ref(false);
 const searchString = ref("");
 const displayProductData = ref([]);
+const newProductData = ref([]);
+
+const myProductStore = productStore();
+const myCartStore = cartStore();
 
 const paginationData = reactive({
     itemsPerPage: 10,
@@ -98,280 +108,17 @@ const itemList = computed(() => {
 })
 
 const getProducts = computed(() => {
+    const products = myProductStore.retrieveProductList();
+    products.then((res) => {
+        productData.value = res;
+    })
+
     if (searchString.value != "" && searchString.value != null) {
         displayProductData.value = productData.value.filter((item) => (item.name).toLowerCase().includes(searchString.value.toLowerCase()));
-        console.log(displayProductData.value.length);
     } else {
         displayProductData.value = productData.value;
     }
 });
-
-const productData = ref([
-    {
-        "id": "P001",
-        "name": "Classic White T-Shirt",
-        "category": "Tops",
-        "price": 19.99,
-        "size": ["S", "M", "L", "XL"],
-        "color": ["White"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/white_tshirt_front.jpg",
-                "alt": "Classic white t-shirt front view"
-            },
-            {
-                "url": "https://example.com/images/white_tshirt_back.jpg",
-                "alt": "Classic white t-shirt back view"
-            }
-        ],
-        "description": "A classic white cotton t-shirt for everyday wear."
-    },
-    {
-        "id": "P002",
-        "name": "Blue Denim Jeans",
-        "category": "Bottoms",
-        "price": 49.99,
-        "size": ["28", "30", "32", "34", "36"],
-        "color": ["Blue"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/blue_denim_jeans_front.jpg",
-                "alt": "Blue denim jeans front view"
-            },
-            {
-                "url": "https://example.com/images/blue_denim_jeans_back.jpg",
-                "alt": "Blue denim jeans back view"
-            }
-        ],
-        "description": "Comfortable blue denim jeans with a slim fit design."
-    },
-    {
-        "id": "P003",
-        "name": "Red Cotton Hoodie",
-        "category": "Outerwear",
-        "price": 34.99,
-        "size": ["S", "M", "L", "XL"],
-        "color": ["Red", "Black"],
-        "inStock": false,
-        "images": [
-            {
-                "url": "https://example.com/images/red_cotton_hoodie_front.jpg",
-                "alt": "Red cotton hoodie front view"
-            },
-            {
-                "url": "https://example.com/images/red_cotton_hoodie_back.jpg",
-                "alt": "Red cotton hoodie back view"
-            }
-        ],
-        "description": "A cozy red hoodie made from soft cotton."
-    },
-    {
-        "id": "P004",
-        "name": "Leather Jacket",
-        "category": "Outerwear",
-        "price": 120.00,
-        "size": ["M", "L", "XL"],
-        "color": ["Black"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/leather_jacket_front.jpg",
-                "alt": "Black leather jacket front view"
-            },
-            {
-                "url": "https://example.com/images/leather_jacket_back.jpg",
-                "alt": "Black leather jacket back view"
-            }
-        ],
-        "description": "A stylish black leather jacket for a modern look."
-    },
-    {
-        "id": "P005",
-        "name": "Floral Summer Dress",
-        "category": "Dresses",
-        "price": 29.99,
-        "size": ["S", "M", "L"],
-        "color": ["Floral"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/floral_summer_dress_front.jpg",
-                "alt": "Floral summer dress front view"
-            },
-            {
-                "url": "https://example.com/images/floral_summer_dress_back.jpg",
-                "alt": "Floral summer dress back view"
-            }
-        ],
-        "description": "A lightweight summer dress with a floral print."
-    },
-    {
-        "id": "P006",
-        "name": "Black Running Shoes",
-        "category": "Shoes",
-        "price": 79.99,
-        "size": ["8", "9", "10", "11", "12"],
-        "color": ["Black"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/black_running_shoes.jpg",
-                "alt": "Black running shoes"
-            }
-        ],
-        "description": "Durable black running shoes with excellent grip."
-    },
-    {
-        "id": "P007",
-        "name": "Blue Cotton Polo Shirt",
-        "category": "Tops",
-        "price": 25.00,
-        "size": ["M", "L", "XL"],
-        "color": ["Blue"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/blue_polo_front.jpg",
-                "alt": "Blue cotton polo shirt front view"
-            }
-        ],
-        "description": "A casual blue polo shirt, perfect for everyday wear."
-    },
-    {
-        "id": "P008",
-        "name": "Green Chinos",
-        "category": "Bottoms",
-        "price": 44.99,
-        "size": ["30", "32", "34", "36"],
-        "color": ["Green"],
-        "inStock": false,
-        "images": [
-            {
-                "url": "https://example.com/images/green_chinos_front.jpg",
-                "alt": "Green chinos front view"
-            },
-            {
-                "url": "https://example.com/images/green_chinos_back.jpg",
-                "alt": "Green chinos back view"
-            }
-        ],
-        "description": "Comfortable slim-fit chinos in olive green."
-    },
-    {
-        "id": "P009",
-        "name": "Black Leather Belt",
-        "category": "Accessories",
-        "price": 29.99,
-        "size": ["S", "M", "L", "XL"],
-        "color": ["Black"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/black_leather_belt.jpg",
-                "alt": "Black leather belt"
-            }
-        ],
-        "description": "A durable black leather belt with a classic buckle."
-    },
-    {
-        "id": "P010",
-        "name": "Woolen Scarf",
-        "category": "Accessories",
-        "price": 19.99,
-        "size": ["One Size"],
-        "color": ["Gray", "Red"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/woolen_scarf.jpg",
-                "alt": "Gray woolen scarf"
-            }
-        ],
-        "description": "A warm and soft woolen scarf for cold weather."
-    },
-    {
-        "id": "P011",
-        "name": "White Sneakers",
-        "category": "Shoes",
-        "price": 65.00,
-        "size": ["7", "8", "9", "10"],
-        "color": ["White"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/white_sneakers.jpg",
-                "alt": "White sneakers"
-            }
-        ],
-        "description": "Classic white sneakers with a minimalist design."
-    },
-    {
-        "id": "P012",
-        "name": "Striped Linen Shirt",
-        "category": "Tops",
-        "price": 39.99,
-        "size": ["S", "M", "L", "XL"],
-        "color": ["Blue and White"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/striped_linen_shirt.jpg",
-                "alt": "Striped blue and white linen shirt"
-            }
-        ],
-        "description": "A lightweight, breathable striped linen shirt."
-    },
-    {
-        "id": "P013",
-        "name": "Red Midi Skirt",
-        "category": "Skirts",
-        "price": 45.99,
-        "size": ["S", "M", "L"],
-        "color": ["Red"],
-        "inStock": false,
-        "images": [
-            {
-                "url": "https://example.com/images/red_midi_skirt.jpg",
-                "alt": "Red midi skirt"
-            }
-        ],
-        "description": "A stylish red midi skirt perfect for casual outings."
-    },
-    {
-        "id": "P014",
-        "name": "Navy Blazer",
-        "category": "Outerwear",
-        "price": 89.99,
-        "size": ["M", "L", "XL"],
-        "color": ["Navy"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/navy_blazer.jpg",
-                "alt": "Navy blazer front view"
-            }
-        ],
-        "description": "A tailored navy blazer for formal occasions."
-    },
-    {
-        "id": "P015",
-        "name": "Leather Ankle Boots",
-        "category": "Shoes",
-        "price": 99.99,
-        "size": ["8", "9", "10", "11"],
-        "color": ["Brown"],
-        "inStock": true,
-        "images": [
-            {
-                "url": "https://example.com/images/leather_ankle_boots.jpg",
-                "alt": "Brown leather ankle boots"
-            }
-        ],
-        "description": "Stylish leather ankle boots for casual wear."
-    }
-]);
 
 </script>
 

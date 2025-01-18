@@ -3,16 +3,17 @@
     <v-container>
 
         <v-card color="surface-variant" min-width="240" max-width="340" hover ripple @click="onCardClick">
-            <v-img height="200px" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-img>
+            <v-img height="200px" :src="productItem.images[0] || 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"
+                cover></v-img>
             <v-card-title>
                 {{ productItem.name }}
             </v-card-title>
             <v-card-subtitle>
-                €{{ productItem.price }}
+                {{ priceFormatter(productItem.priceInfo["unit_amount"]) }}
             </v-card-subtitle>
             <v-card-actions>
-                <v-btn :text="productItem.inStock ? 'Add To Cart' : 'Out of Stock'" variant="outlined"
-                    :disabled="!productItem.inStock"></v-btn>
+                <v-btn :text="productItem.active ? 'Preview' : 'Out of Stock'" variant="outlined"
+                    :disabled="!productItem.active"></v-btn>
             </v-card-actions>
         </v-card>
 
@@ -31,7 +32,7 @@
                 <v-divider></v-divider>
 
                 <v-carousel color="orange">
-                    <v-carousel-item v-for="(imagesInfo, i) in productItem.images" :key="i" :src="imagesInfo.url"
+                    <v-carousel-item v-for="(imagesInfo, i) in productItem.images" :key="i" :src="imagesInfo"
                         :alt="imagesInfo.alt" cover>
                     </v-carousel-item>
                 </v-carousel>
@@ -41,8 +42,6 @@
                     <v-card-title>{{ productItem.name }}</v-card-title>
 
                     <v-card-subtitle>
-                        <span class="me-1">{{ productItem.category }}</span>
-
                         <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
                     </v-card-subtitle>
                 </v-card-item>
@@ -58,7 +57,7 @@
                     </v-row>
 
                     <div class="my-4 text-subtitle-1">
-                        € • {{ productItem.price }}
+                        {{ priceFormatter(productItem.priceInfo["unit_amount"]) }}
                     </div>
 
                     <div>{{ productItem.description }}</div>
@@ -85,9 +84,8 @@
                 <v-divider></v-divider>
 
                 <v-card-actions>
-                    <v-btn color="blue" text="Add To Cart"></v-btn>
-
-                    <v-btn color="orange" text="Buy Now"></v-btn>
+                    <v-btn color="blue" text="Add To Cart" @click="executeAddToCart(user, productItem.priceId)"></v-btn>
+                    <v-btn color="orange" text="Buy Now" @click="executeBuyNow(user, productItem.priceId)"></v-btn>
                 </v-card-actions>
 
             </v-card>
@@ -99,12 +97,48 @@
 
 <script setup>
 
+import { cartStore } from '@/stores/cartstore'
+import { auth } from "@/firebase/init.js"
+import { onAuthStateChanged } from 'firebase/auth'
+import { onMounted } from 'vue'
+import router from '@/router'
+
 const props = defineProps(['productItem'])
 
+const myCartStore = cartStore()
+
 const dialog = ref(false)
+const user = ref(null)
+
+onMounted(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+            user.value = currentUser
+        } else {
+            user.value = null
+        }
+    })
+})
+
+const priceFormatter = (price) => {
+    let scaledPrice = price / 100
+    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+        scaledPrice,
+    );
+}
+
+async function executeAddToCart(user, currentPriceId) {
+    await myCartStore.addToCart(user, currentPriceId)
+}
+
+async function executeBuyNow(user, currentPriceId) {
+    await myCartStore.addToCart(user, currentPriceId)
+    await myCartStore.fetchCartItems(user)
+    router.push('/shopping-cart')
+}
 
 function onCardClick() {
-    if (props.productItem.inStock) {
+    if (props.productItem.active) {
         dialog.value = true
     }
 }

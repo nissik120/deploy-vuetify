@@ -11,7 +11,7 @@
                 <div class="d-flex flex-row">
                     <p class="ma-2 pa-2">Addresse</p>
                     <p class="ma-2 pa-2">
-                        Alte Linner Strasse 103 <br>
+                        Alte Linner Str. 103 <br>
                         47799 Krefeld
                     </p>
                 </div>
@@ -31,11 +31,11 @@
                 <v-container>
                     <h3 class="py-2">Kontakt Uns</h3>
                     <v-row>
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                             <v-text-field label="First name" hide-details required></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                             <v-text-field label="Last name" hide-details required></v-text-field>
                         </v-col>
 

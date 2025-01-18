@@ -2,7 +2,7 @@
     <div class="text-center pa-4">
         <v-dialog v-model="dialog" max-width="400" persistent>
             <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" density="default" variant="elevated" color="primary">
+                <v-btn class="pa-2" v-bind="activatorProps" density="default" variant="elevated" color="primary">
                     {{ authStore.user !== null ? 'Logout' : 'Sign In' }}
                 </v-btn>
             </template>

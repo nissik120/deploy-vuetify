@@ -3,6 +3,7 @@
         <v-toolbar prominent class="bg-transparent">
 
             <LogoImage />
+
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
@@ -13,9 +14,10 @@
             </v-toolbar-items>
             <span>
                 <v-btn class="text-none" stacked :to="cartMenuItem.path">
-                    <v-badge color="error" content="2">
+                    <v-badge v-if="updateCartCount != 0" color="error" :content="updateCartCount">
                         <v-icon>mdi-cart</v-icon>
                     </v-badge>
+                    <v-icon v-else>mdi-cart</v-icon>
                 </v-btn>
             </span>
             <span>
@@ -46,10 +48,19 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useTheme } from 'vuetify'
+import { cartStore } from '@/stores/cartstore'
+
 const theme = useTheme()
 const appTitle = ref("E'S Fashion")
 const appSubTitle = ref('Mode & Anderungen')
 
+const myCartStore = cartStore()
+
+const updateCartCount = computed(() => {
+    let cartCount = myCartStore.getCartList().reduce((count, item) => count + item.quantity, 0)
+    console.log(cartCount)
+    return cartCount ?? 0
+})
 
 const sidebar = ref(false)
 const menuItems = ref([
