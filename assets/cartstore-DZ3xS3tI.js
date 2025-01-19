@@ -1,4 +1,4 @@
-import{ae as mf,r as cc,e as gf}from"./index-BoiogL3_.js";const _f={apiKey:"AIzaSyBjVxkle7n_GXzGEYNOhPz2oDEJiCMdSdk",authDomain:"ecommerce-demo-52eca.firebaseapp.com",projectId:"ecommerce-demo-52eca",storageBucket:"ecommerce-demo-52eca.firebasestorage.app",messagingSenderId:"2141589402",appId:"1:2141589402:web:4384177c72fac8962c7423",measurementId:"G-X0YMYSEL9Q"};var uc={};/**
+import{ae as mf,r as cc,e as gf}from"./index-CNQObE2V.js";const _f={apiKey:"AIzaSyBjVxkle7n_GXzGEYNOhPz2oDEJiCMdSdk",authDomain:"ecommerce-demo-52eca.firebaseapp.com",projectId:"ecommerce-demo-52eca",storageBucket:"ecommerce-demo-52eca.firebasestorage.app",messagingSenderId:"2141589402",appId:"1:2141589402:web:4384177c72fac8962c7423",measurementId:"G-X0YMYSEL9Q"};var uc={};/**
  * @license
  * Copyright 2017 Google LLC
  *
