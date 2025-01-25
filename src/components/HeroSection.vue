@@ -5,10 +5,10 @@
             <v-col class="text-center" cols="12" md="6">
                 <h1>Fur Sie Gemacht, Von Der Mode Inspiriert</h1>
                 <div class="d-flex flex-row justify-center">
-                    <v-btn link to="/boutique" class="pa-4 ma-2" size="large">
+                    <v-btn color="primary" link to="/boutique" class="pa-4 ma-2" size="large">
                         Zum Shop
                     </v-btn>
-                    <v-btn link to="/alterier" class="pa-4 ma-2" size="large">
+                    <v-btn color="secondary" link to="/alterier" class="pa-4 ma-2" size="large">
                         Alterier
                     </v-btn>
                 </div>

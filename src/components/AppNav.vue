@@ -75,7 +75,8 @@ const cartMenuItem = ref({
 })
 
 function toggleTheme() {
-    theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+    const currentTheme = theme.global.name.value
+    theme.global.name.value = currentTheme === 'dayTheme' ? 'nightTheme' : 'dayTheme'
 }
 
 </script>

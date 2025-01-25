@@ -1,7 +1,7 @@
 <template>
   <v-footer class="bg-grey-lighten-1 py-8" app>
     <v-row justify="center" no-gutters>
-      <v-btn v-for="link in links" :key="link" class="mx-2" color="white" rounded="xl" variant="text">
+      <v-btn v-for="link in links" :key="link" class="mx-2" rounded="xl" variant="text" color="surface">
         {{ link }}
       </v-btn>
       <v-col class="text-center mt-4" cols="12">
@@ -23,5 +23,4 @@ const links = ref([
 ])
 </script>
 
-<style scoped lang="sass">
-</style>
+<style scoped lang="css"></style>

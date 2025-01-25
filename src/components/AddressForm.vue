@@ -32,19 +32,19 @@
                     <h3 class="py-2">Kontakt Uns</h3>
                     <v-row>
                         <v-col cols="12">
-                            <v-text-field label="First name" hide-details required></v-text-field>
+                            <v-text-field label="First name" hide-details required variant="solo"></v-text-field>
                         </v-col>
 
                         <v-col cols="12">
-                            <v-text-field label="Last name" hide-details required></v-text-field>
+                            <v-text-field label="Last name" hide-details required variant="solo"></v-text-field>
                         </v-col>
 
                         <v-col cols="12">
-                            <v-text-field label="E-mail" hide-details required></v-text-field>
+                            <v-text-field label="E-mail" hide-details required variant="solo"></v-text-field>
                         </v-col>
 
                         <v-col cols="12">
-                            <v-btn class="mt-2" type="submit" block>Senden</v-btn>
+                            <v-btn color="secondary" class="mt-2" type="submit" block>Senden</v-btn>
                         </v-col>
 
                     </v-row>
