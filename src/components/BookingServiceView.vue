@@ -153,7 +153,7 @@ function generateSlots(start, end, slotDuration) {
 async function bookSlot(slot) {
     const bookingRef = doc(db, "appointments", `${selectedDate.value}-${slot}`);
     await setDoc(bookingRef, {
-        date: selectedDate.value,
+        date: selectedDate.value.toLocaleDateString(),
         slot,
         user: "John Doe", // Replace with actual user data
     });
