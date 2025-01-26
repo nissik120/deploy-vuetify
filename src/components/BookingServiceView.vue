@@ -14,7 +14,7 @@
         <v-row>
             <v-col>
                 <v-card class="pa-4">
-                    <h2>Buchen einen Termin</h2>
+                    <h2>Buchen Sie einen Termin</h2>
                     <v-date-picker v-model="selectedDate" label="Pick a Date" :min="getMinimumDate"></v-date-picker>
                     <v-btn color="primary" @click="fetchSlots" :disabled="isCheckSlotsActivated">
                         Check Slots
@@ -58,7 +58,7 @@ const getMinimumDate = computed(() => {
 })
 
 const isCheckSlotsActivated = computed(() => {
-    return !selectedDate.value || !selectedService.value
+    return !selectedDate.value || selectedService.value == null
 })
 
 const getServiceElevation = (serviceIndex) => {
@@ -110,10 +110,9 @@ function generateSlots(start, end, slotDuration) {
 
     // Adjust start time to skip past invalid slots
     let currentTime = new Date();
-    let currentDate = currentTime.toISOString().split('T')[0];
-    let currentSelectedDate = selectedDate.value.toISOString().split('T')[0];
-    console.log(currentSelectedDate)
-    const isToday = currentDate === selectedDate.value;
+    let currentDate = currentTime.toLocaleDateString();
+    let currentSelectedDate = new Date(selectedDate.value).toLocaleDateString();
+    const isToday = currentDate === currentSelectedDate;
     if (isToday) {
         const currentHour = currentTime.getHours();
         const currentMinute = currentTime.getMinutes();
