@@ -55,7 +55,7 @@ export const cartStore = defineStore("cart", () => {
             }
             await updateDoc(cartRef, { items: currentItems });
 
-            console.log("added new entry");
+            //console.log("added new entry");
 
         } else {
             await setDoc(cartRef, {
@@ -64,7 +64,7 @@ export const cartStore = defineStore("cart", () => {
                     "quantity": 1
                 })
             });
-            console.log("added first entry");
+            //console.log("added first entry");
         }
 
         await fetchCartItems(user);
@@ -94,7 +94,7 @@ export const cartStore = defineStore("cart", () => {
 
         }
         await fetchCartItems(user);
-        console.log("removed a quantity under name from cart");
+        //console.log("removed a quantity under name from cart");
 
     }
 
@@ -117,7 +117,7 @@ export const cartStore = defineStore("cart", () => {
             }
         }
         await fetchCartItems(user);
-        console.log("removed item under name from cart");
+        //console.log("removed item under name from cart");
     }
 
 

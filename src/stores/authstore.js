@@ -12,7 +12,7 @@ export const userAuthStore = defineStore("auth", ()=>{
 
     if(localStorage.getItem("app_user")){
         user.value = localStorage.getItem("app_user")
-        console.log(user.value)
+        //console.log(user.value)
     }
 
     const getUser = () => user.value
@@ -27,10 +27,10 @@ export const userAuthStore = defineStore("auth", ()=>{
             userPassword.value = password
             const user = await createUserWithEmailAndPassword(auth, email, password)
             if(user){
-                console.log(auth.currentUser)
+                //console.log(auth.currentUser)
                 setUser(auth.currentUser)
                 localStorage.setItem('app_user', auth.currentUser)
-                console.log("User signed in successfully")
+                //console.log("User signed in successfully")
             }
         } catch (error) {
             console.log(error)
@@ -44,10 +44,10 @@ export const userAuthStore = defineStore("auth", ()=>{
             const res = await signInWithEmailAndPassword(auth, email, password)
             if(res){
                 //console.log("User signed in successfully")
-                console.log(auth.currentUser)
+                //console.log(auth.currentUser)
                 setUser(auth.currentUser)
                 localStorage.setItem('app_user', auth.currentUser)
-                console.log("User signed in successfully")
+                //console.log("User signed in successfully")
             }
         } catch (error) {
             console.log(error)
@@ -56,7 +56,7 @@ export const userAuthStore = defineStore("auth", ()=>{
 
     async function logOutUser(){
         await signOut(auth)
-        console.log("User signed out successfully")
+        //console.log("User signed out successfully")
         userEmail.value= ''
         userPassword.value = ''
     }
@@ -65,7 +65,7 @@ export const userAuthStore = defineStore("auth", ()=>{
         try {
             const res = await sendPasswordResetEmail(auth, userEmail)
             if(res){
-                console.log("Reset email sent")
+                //console.log("Reset email sent")
             }
         } catch (error) {
             const errorCode = error.code;

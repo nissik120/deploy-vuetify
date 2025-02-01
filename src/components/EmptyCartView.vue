@@ -1,0 +1,27 @@
+<template>
+    <v-container class="text-center">
+        <v-row justify="center">
+            <v-col cols="12" sm="8" md="6">
+                <v-card elevation="3" class="pa-8">
+                    <v-icon size="64" color="red">mdi-cart-off</v-icon>
+                    <h2 class="mt-4">Nothing Here!!</h2>
+                    <p class="mt-2">
+                        Add something to checkout
+                    </p>
+                    <v-btn color="secondary" class="mt-4" outlined @click="goToShop">Go Back to Shop</v-btn>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+</template>
+
+<script setup>
+import router from '@/router'
+
+const goToShop = () => {
+    router.push("/boutique")
+}
+
+</script>
+
+<style lang="scss" scoped></style>

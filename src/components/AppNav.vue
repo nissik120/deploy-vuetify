@@ -34,31 +34,49 @@
             <v-divider></v-divider>
             <v-list-item v-for="item in menuItems" link :title="item.title" :to="item.path"></v-list-item>
             <v-divider></v-divider>
-            <AuthModalView />
+            <div class="text-center pa-4">
+                <v-btn class="pa-2" density="default" variant="elevated" color="primary"
+                    @click="dialogStore.openDialog(1)">
+                    {{ authStore.user !== null ? 'Logout' : 'Sign In' }}
+                </v-btn>
+            </div>
+
         </v-navigation-drawer>
 
-        <v-dialog>
-
-        </v-dialog>
-
+        <AppModalView />
 
     </v-container>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useTheme } from 'vuetify'
 import { cartStore } from '@/stores/cartstore'
+import { userAuthStore } from '@/stores/authstore'
+import { appDialogStore } from "@/stores/dialogstore"
+import { auth } from "@/firebase/init.js"
+import { onAuthStateChanged } from 'firebase/auth'
+
+const authStore = userAuthStore()
+const myCartStore = cartStore()
+const dialogStore = appDialogStore()
 
 const theme = useTheme()
 const appTitle = ref("E'S Fashion")
 const appSubTitle = ref('Mode & Anderungen')
 
-const myCartStore = cartStore()
+onMounted(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+            authStore.setUser(currentUser)
+        } else {
+            authStore.setUser(null)
+        }
+    })
+})
 
 const updateCartCount = computed(() => {
     let cartCount = myCartStore.getCartList().reduce((count, item) => count + item.quantity, 0)
-    console.log(cartCount)
     return cartCount ?? 0
 })
 

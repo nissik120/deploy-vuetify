@@ -84,8 +84,10 @@
                 <v-divider></v-divider>
 
                 <v-card-actions>
-                    <v-btn color="blue" text="Add To Cart" @click="executeAddToCart(user, productItem.priceId)"></v-btn>
-                    <v-btn color="orange" text="Buy Now" @click="executeBuyNow(user, productItem.priceId)"></v-btn>
+                    <v-btn color="blue" text="Add To Cart"
+                        @click="executeAddToCart(authStore.user, productItem.priceId)"></v-btn>
+                    <v-btn color="orange" text="Buy Now"
+                        @click="executeBuyNow(authStore.user, productItem.priceId)"></v-btn>
                 </v-card-actions>
 
             </v-card>
@@ -97,7 +99,9 @@
 
 <script setup>
 
+import { appDialogStore } from "@/stores/dialogstore"
 import { cartStore } from '@/stores/cartstore'
+import { userAuthStore } from '@/stores/authstore'
 import { auth } from "@/firebase/init.js"
 import { onAuthStateChanged } from 'firebase/auth'
 import { onMounted } from 'vue'
@@ -105,17 +109,19 @@ import router from '@/router'
 
 const props = defineProps(['productItem'])
 
+const dialogStore = appDialogStore()
 const myCartStore = cartStore()
+const authStore = userAuthStore()
 
 const dialog = ref(false)
-const user = ref(null)
+const selection = ref(null)
 
 onMounted(() => {
     onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
-            user.value = currentUser
+            authStore.setUser(currentUser)
         } else {
-            user.value = null
+            authStore.setUser(null)
         }
     })
 })
@@ -128,13 +134,21 @@ const priceFormatter = (price) => {
 }
 
 async function executeAddToCart(user, currentPriceId) {
-    await myCartStore.addToCart(user, currentPriceId)
+    if (authStore.user) {
+        await myCartStore.addToCart(user, currentPriceId)
+    } else {
+        dialogStore.openDialog(1)
+    }
 }
 
 async function executeBuyNow(user, currentPriceId) {
-    await myCartStore.addToCart(user, currentPriceId)
-    await myCartStore.fetchCartItems(user)
-    router.push('/shopping-cart')
+    if (authStore.user) {
+        await myCartStore.addToCart(user, currentPriceId)
+        await myCartStore.fetchCartItems(user)
+        router.push('/shopping-cart')
+    } else {
+        dialogStore.openDialog(1)
+    }
 }
 
 function onCardClick() {
